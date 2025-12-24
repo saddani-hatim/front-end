@@ -22,28 +22,21 @@ import r16 from "./../../../../images/medal worthy/dc79e7c8-af20-4b65-ae2f-da2ca
 import r17 from "./../../../../images/medal worthy/eb385972-caf6-4e84-a37c-3fc2b4ac52041691079093062-image_png892897249.png";
 import Image from "next/image";
 
-function AdsCaro(props:any) {
-  const [slidesToShow,setSlidesToShow] = useState(6);
-  const [slidesToScroll,setSlidesToScroll] = useState(6);
+function AdsCaro(props: any) {
+  const [slidesToShow, setSlidesToShow] = useState(6);
+  const [slidesToScroll, setSlidesToScroll] = useState(6);
 
   useEffect(() => {
     const updateWindowDimensions = () => {
-      setSlidesToShow(window.innerWidth < 768 ? 3 : 6)
-       setSlidesToScroll(window.innerWidth < 768 ? 3 : 6)
-      
-      // Use the slidesToShow and slidesToScroll values as needed
-      // (e.g., update state or any other logic)
+      setSlidesToShow(window.innerWidth < 768 ? 3 : 6);
+      setSlidesToScroll(window.innerWidth < 768 ? 3 : 6);
     };
 
-    // Call the function initially
     updateWindowDimensions();
+    window.addEventListener("resize", updateWindowDimensions);
 
-    // Attach the function to the "resize" event to update on window size changes
-    window.addEventListener('resize', updateWindowDimensions);
-
-    // Clean up the event listener when the component unmounts
     return () => {
-      window.removeEventListener('resize', updateWindowDimensions);
+      window.removeEventListener("resize", updateWindowDimensions);
     };
   }, []);
 
@@ -51,38 +44,49 @@ function AdsCaro(props:any) {
     dots: true,
     infinite: true,
     speed: 500,
-    slidesToShow: slidesToShow, // Use the value from state or update as needed
-    slidesToScroll: slidesToScroll, // Use the value from state or update as needed
+    slidesToShow: slidesToShow,
+    slidesToScroll: slidesToScroll,
   };
 
-  
+  const images = [r0, r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12, r13, r14, r15, r16, r17];
+
   return (
-    <div className="md:w-[82.7rem] max-sm:w-11/12">
-      <h1 className="uppercase text-zinc-700	mt-20 mb-20 ml-0
-      max-sm:mt-12 max-sm:mb-10 max-sm:mr-12 max-sm:ml-3 
-      md:text-3xl max-sm:text-xl  tracking-wider  font-semibold ">
-        {props.heading}
-      </h1>
-      <Slider className="max-sm:m-3" {...settings} autoplay={true}>
-        <Image objectFit="contain" src={r0} alt="d" />
-        <Image objectFit="contain"  src={r1} alt="d" />
-        <Image src={r2} alt="d"  objectFit="contain" />
-        <Image src={r3} alt="d"  objectFit="contain" />
-        <Image src={r4} alt="d"  objectFit="contain" />
-        <Image src={r5} alt="d"  objectFit="contain" />
-        <Image src={r6} alt="d"  objectFit="contain" />
-        <Image src={r7} alt="d"  objectFit="contain" />
-        <Image src={r8} alt="d" objectFit="contain"  />
-        <Image src={r9} alt="d"  objectFit="contain" />
-        <Image src={r10} alt="d"  objectFit="contain" />
-        <Image src={r11} alt="d"  objectFit="contain" />
-        <Image src={r12} alt="d"  objectFit="contain" />
-        <Image src={r13} alt="d"  objectFit="contain" />
-        <Image src={r14} alt="d"  objectFit="contain" />
-        <Image src={r15} alt="d"  objectFit="contain" />
-        <Image src={r16} alt="d"  objectFit="contain" />
-        <Image src={r17} alt="d"  objectFit="contain" />
-      </Slider>
+    <div className="max-w-7xl mx-auto px-4 md:px-8">
+      {/* Section Header */}
+      <div className="flex items-center justify-center mb-8 md:mb-12">
+        <div className="flex-1 h-px bg-gradient-to-r from-transparent via-slate-700 to-transparent" />
+        <h2 className="px-6 text-xl md:text-3xl font-bold uppercase tracking-wider text-center">
+          <span className="bg-gradient-to-r from-primary-light to-secondary-light bg-clip-text text-transparent">
+            {props.heading}
+          </span>
+        </h2>
+        <div className="flex-1 h-px bg-gradient-to-r from-transparent via-slate-700 to-transparent" />
+      </div>
+
+      {/* Slider Container */}
+      <div className="relative">
+        <Slider {...settings} autoplay={true} autoplaySpeed={3000}>
+          {images.map((img, index) => (
+            <div key={index} className="px-2">
+              <div className="relative group overflow-hidden rounded-xl 
+                bg-dark-800 border border-slate-700/50
+                transition-all duration-300 
+                hover:border-primary/50 hover:shadow-glow">
+                <Image
+                  src={img}
+                  alt={`Brand ${index + 1}`}
+                  className="w-full h-auto object-contain 
+                    transition-transform duration-500 
+                    group-hover:scale-105"
+                />
+                {/* Hover overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent 
+                  opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              </div>
+            </div>
+          ))}
+        </Slider>
+      </div>
     </div>
   );
 }

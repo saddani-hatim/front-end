@@ -10,59 +10,68 @@ import r4 from "./../../../../images/rakshabandhan/a4d4675c-0bfc-4250-8a7a-bfbdd
 import Image from "next/image";
 
 function AdsSlider() {
-  // const swiper = new Swiper();    (window.innerWidth < 768) ? 5 : 4,   (window.innerWidth < 768) ? 1 : 1,
-
-  const [slidesToShow,setSlidesToShow] = useState(4);
-  const [slidesToScroll,setSlidesToScroll] = useState(1);
+  const [slidesToShow, setSlidesToShow] = useState(4);
+  const [slidesToScroll, setSlidesToScroll] = useState(1);
 
   useEffect(() => {
     const updateWindowDimensions = () => {
-      setSlidesToShow(window.innerWidth < 768 ? 4 : 5)
-       setSlidesToScroll(window.innerWidth < 768 ? 1 : 1)
-      
-      // Use the slidesToShow and slidesToScroll values as needed
-      // (e.g., update state or any other logic)
+      setSlidesToShow(window.innerWidth < 768 ? 3 : 5);
+      setSlidesToScroll(1);
     };
 
-    // Call the function initially
     updateWindowDimensions();
-
-    // Attach the function to the "resize" event to update on window size changes
     window.addEventListener('resize', updateWindowDimensions);
 
-    // Clean up the event listener when the component unmounts
     return () => {
       window.removeEventListener('resize', updateWindowDimensions);
     };
   }, []);
+
   const settings = {
     dots: true,
-  
     infinite: true,
     speed: 500,
     slidesToShow: slidesToShow,
     slidesToScroll: slidesToScroll
   };
-  return (
-    <div className=" indent-1 max-sm:w-11/12 ">
-      
-      <h1 className="uppercase text-zinc-700
-       mt-12 ml-3	sm:mt-16 sm:ml-7 
-       sm:text-3xl text-xl mb-10 tracking-widest  font-bold ">
-      RAKSHABANNDHAN GIFTS THIS WAY
-      </h1>
 
-      <Slider   className="max-sm:ml-3"
-      {...settings} autoplay={true}
-      >
-        <Image  objectFit="contain" src={r1} alt="d"/>
-        <Image src={r2} alt="d" objectFit="contain" />
-        <Image src={r3} alt="d" objectFit="contain" />
-        <Image src={r4} alt="d" objectFit="contain" />
-        {/* <Image src={r5} alt="d"/> */}
-        <Image src={r6} alt="d" objectFit="contain" />
-          
-        </Slider>
+  const images = [r1, r2, r3, r4, r6];
+
+  return (
+    <div className="max-w-7xl mx-auto px-4 md:px-8">
+      {/* Section Header */}
+      <div className="flex items-center justify-center mb-8 md:mb-12">
+        <div className="flex-1 h-px bg-gradient-to-r from-transparent via-slate-700 to-transparent" />
+        <h2 className="px-6 text-xl md:text-3xl font-bold uppercase tracking-wider text-center">
+          <span className="bg-gradient-to-r from-secondary to-primary bg-clip-text text-transparent">
+            Special Gifts This Way
+          </span>
+        </h2>
+        <div className="flex-1 h-px bg-gradient-to-r from-transparent via-slate-700 to-transparent" />
+      </div>
+
+      {/* Slider */}
+      <Slider {...settings} autoplay={true} autoplaySpeed={3000}>
+        {images.map((img, index) => (
+          <div key={index} className="px-2">
+            <div className="relative group overflow-hidden rounded-2xl
+              bg-dark-800 border border-slate-700/50
+              transition-all duration-300
+              hover:border-secondary/50 hover:shadow-glow-pink">
+              <Image 
+                src={img} 
+                alt={`Gift ${index + 1}`}
+                className="w-full h-auto object-contain
+                  transition-transform duration-500
+                  group-hover:scale-105"
+              />
+              {/* Hover gradient overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-secondary/20 to-transparent 
+                opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            </div>
+          </div>
+        ))}
+      </Slider>
     </div>
   );
 }

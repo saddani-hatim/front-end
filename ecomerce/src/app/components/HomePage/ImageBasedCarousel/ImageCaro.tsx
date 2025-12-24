@@ -18,7 +18,6 @@ const ImageCaro = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Simulate a 2-second delay before showing the image
     const timeout = setTimeout(() => {
       setLoading(false);
     }, 200);
@@ -27,47 +26,50 @@ const ImageCaro = () => {
       clearTimeout(timeout);
     };
   }, []);
+
+  const images = [m1, m2, m3, m4, m5, m6, m7, m8];
+
   return (
-    <Carousel
-      showThumbs={false}
-      showArrows={false}
-      showStatus={false}
-      autoPlay
-      infiniteLoop
-      className="relative md:mt-[7rem] max-sm:mt-[6rem]"
-    >
-      <div>
-        {loading && <Skeleton width={1300} height={300} />}
-        <div className={`  ${loading ? "hidden" : "block"} `}>
-          <Image objectFit="contain" src={m1} alt="handbags" />
-        </div>
-      </div>
+    <div className="relative mt-16 md:mt-20">
+      {/* Gradient overlay for seamless blending */}
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-dark-900 z-10 pointer-events-none" />
+      
+      <Carousel
+        showThumbs={false}
+        showArrows={false}
+        showStatus={false}
+        autoPlay
+        infiniteLoop
+        interval={4000}
+        transitionTime={800}
+        className="overflow-hidden"
+      >
+        {images.map((img, index) => (
+          <div key={index} className="relative">
+            {loading && index === 0 && (
+              <div className="h-[300px] md:h-[500px] bg-dark-800">
+                <Skeleton 
+                  height="100%" 
+                  baseColor="#1E293B" 
+                  highlightColor="#334155" 
+                />
+              </div>
+            )}
+            <div className={`${loading && index === 0 ? "hidden" : "block"}`}>
+              <Image 
+                src={img} 
+                alt={`Banner ${index + 1}`}
+                className="w-full h-auto object-cover"
+                priority={index === 0}
+              />
+            </div>
+          </div>
+        ))}
+      </Carousel>
 
-      <div>
-        <Image objectFit="contain" src={m2} alt="handbags" />
-      </div>
-
-      <div>
-        <Image objectFit="contain" src={m3} alt="handbags" />
-      </div>
-
-      <div>
-        <Image objectFit="contain" src={m4} alt="handbags" />
-      </div>
-
-      <div>
-        <Image objectFit="contain" src={m5} alt="handbags" />
-      </div>
-      <div>
-        <Image objectFit="contain" src={m6} alt="handbags" />
-      </div>
-      <div>
-        <Image objectFit="contain" src={m7} alt="handbags" />
-      </div>
-      <div>
-        <Image objectFit="contain" src={m8} alt="handbags" />
-      </div>
-    </Carousel>
+      {/* Decorative elements */}
+      <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-dark-900 to-transparent z-20" />
+    </div>
   );
 };
 

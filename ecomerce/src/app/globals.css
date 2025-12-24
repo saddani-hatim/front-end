@@ -2,37 +2,325 @@
 @tailwind components;
 @tailwind utilities;
 
-/* :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+/* ===== Custom CSS Variables ===== */
+:root {
+  /* Primary Colors */
+  --primary: #7C3AED;
+  --primary-light: #A78BFA;
+  --primary-dark: #5B21B6;
   
+  /* Secondary Colors */
+  --secondary: #EC4899;
+  --secondary-light: #F472B6;
+  
+  /* Background Colors */
+  --bg-dark: #0F172A;
+  --bg-card: #1E293B;
+  --bg-surface: #334155;
+  
+  /* Text Colors */
+  --text-primary: #F8FAFC;
+  --text-secondary: #94A3B8;
+  --text-muted: #64748B;
+  
+  /* Status Colors */
+  --success: #10B981;
+  --warning: #F59E0B;
+  --error: #EF4444;
+  
+  /* Gradients */
+  --gradient-primary: linear-gradient(135deg, #7C3AED 0%, #EC4899 100%);
+  --gradient-secondary: linear-gradient(135deg, #A78BFA 0%, #F472B6 100%);
+  --gradient-dark: linear-gradient(180deg, #1E293B 0%, #0F172A 100%);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-} */
-/* styles/globals.css */
-/* ... (previous styles) */
+/* ===== Base Styles ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-/* Add styles for the cart container */
-.cart-container {
-  background-color: #fff;
-  border: 1px solid #e2e8f0;
-  border-radius: 0.5rem;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  background: var(--bg-dark);
+  color: var(--text-primary);
+  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ===== Custom Scrollbar ===== */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-dark);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--bg-surface);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
+}
+
+/* ===== Typography ===== */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+p {
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+a {
+  color: var(--primary-light);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: var(--primary);
+}
+
+/* ===== Animations ===== */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(-20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(124, 58, 237, 0.3); }
+  50% { box-shadow: 0 0 30px rgba(124, 58, 237, 0.5); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+/* ===== Utility Classes ===== */
+.gradient-text {
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-bg {
+  background: var(--gradient-primary);
+}
+
+.gradient-border {
+  position: relative;
+  background: var(--bg-card);
+  border-radius: 16px;
+}
+
+.gradient-border::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  padding: 1px;
+  background: var(--gradient-primary);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+
+.glass {
+  background: rgba(30, 41, 59, 0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(148, 163, 184, 0.1);
+}
+
+.glass-light {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.glow {
+  box-shadow: 0 0 30px rgba(124, 58, 237, 0.3);
+}
+
+.glow-hover:hover {
+  box-shadow: 0 0 40px rgba(124, 58, 237, 0.4);
+}
+
+.card-hover {
+  transition: all 0.3s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 30px rgba(124, 58, 237, 0.2);
+}
+
+/* ===== Button Styles ===== */
+.btn-primary {
+  background: var(--gradient-primary);
+  color: white;
+  padding: 12px 24px;
+  border-radius: 12px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 25px rgba(124, 58, 237, 0.5);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--primary-light);
+  padding: 12px 24px;
+  border-radius: 12px;
+  font-weight: 600;
+  border: 2px solid var(--primary);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+  background: var(--primary);
+  color: white;
+}
+
+/* ===== Input Styles ===== */
+.input-modern {
+  background: var(--bg-surface);
+  border: 1px solid transparent;
+  border-radius: 12px;
+  padding: 12px 16px;
+  color: var(--text-primary);
+  transition: all 0.3s ease;
+}
+
+.input-modern:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 20px rgba(124, 58, 237, 0.2);
+}
+
+.input-modern::placeholder {
+  color: var(--text-muted);
+}
+
+/* ===== Cart Container (Legacy Support) ===== */
+.cart-container {
+  background: var(--bg-card);
+  border: 1px solid var(--bg-surface);
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+/* ===== Card Styles ===== */
+.product-card {
+  background: var(--bg-card);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(148, 163, 184, 0.1);
+}
+
+.product-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(124, 58, 237, 0.15);
+  border-color: rgba(124, 58, 237, 0.3);
+}
+
+/* ===== Badge Styles ===== */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.badge-primary {
+  background: var(--gradient-primary);
+  color: white;
+}
+
+.badge-success {
+  background: rgba(16, 185, 129, 0.2);
+  color: var(--success);
+}
+
+.badge-warning {
+  background: rgba(245, 158, 11, 0.2);
+  color: var(--warning);
+}
+
+/* ===== Section Styles ===== */
+.section-heading {
+  font-size: 2rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 2rem;
+}
+
+/* ===== Responsive Adjustments ===== */
+@media (max-width: 768px) {
+  .section-heading {
+    font-size: 1.5rem;
+  }
+}
+
+/* ===== Slick Carousel Overrides ===== */
+.slick-dots li button:before {
+  color: var(--text-secondary) !important;
+  font-size: 10px !important;
+}
+
+.slick-dots li.slick-active button:before {
+  color: var(--primary) !important;
+}
+
+.slick-prev:before,
+.slick-next:before {
+  color: var(--primary) !important;
+  font-size: 24px !important;
+}
+
+/* ===== React Responsive Carousel Overrides ===== */
+.carousel .control-dots .dot {
+  background: var(--text-secondary) !important;
+  box-shadow: none !important;
+}
+
+.carousel .control-dots .dot.selected {
+  background: var(--primary) !important;
 }

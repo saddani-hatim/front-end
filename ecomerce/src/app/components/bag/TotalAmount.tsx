@@ -1,33 +1,65 @@
 "use client";
 import { useAppSelector } from "@/redux/store";
-
-import React, { useState } from "react";
+import React from "react";
 
 function TotalAmount() {
-
   let amount = 0;
   amount = useAppSelector((state) => state.reducers.totalAmount);
 
+  const shipping = amount > 0 ? 99 : 0;
+  const discount = Math.round(amount * 0.1);
+  const total = amount + shipping - discount;
+
   return (
-    <div className="bg-white border rounded-lg shadow-md p-4">
-      <div className="mb-5  mt-2 mx-1 ">
-        <p className="font-bold text-xl">Total: ${amount}</p>
-      </div>
-      <div className="my-2">
-        <a
-          href="#_"
-          className="relative  px-5 py-3 mt-2 overflow-hidden font-medium text-gray-600 bg-gray-100 border border-gray-100 rounded-xl shadow-inner group"
-        >
-          <span className="absolute top-0 left-0 w-0 h-0 transition-all duration-200 border-t-2 border-gray-600 group-hover:w-full ease"></span>
-          <span className="absolute bottom-0 right-0 w-0 h-0 transition-all duration-200 border-b-2 border-gray-600 group-hover:w-full ease"></span>
-          <span className="absolute top-0 left-0 w-full h-0 transition-all duration-300 delay-200 bg-gray-600 group-hover:h-full ease"></span>
-          <span className="absolute bottom-0 left-0 w-full h-0 transition-all duration-300 delay-200 bg-gray-600 group-hover:h-full ease"></span>
-          <span className="absolute inset-0 w-full rounded-xl h-full duration-300 delay-300 bg-gray-900 opacity-0 group-hover:opacity-100"></span>
-          <span className="relative transition-colors duration-300 delay-200  group-hover:text-white ease">
-            Proceed To Buy
+    <div className="space-y-4">
+      {/* Price Breakdown */}
+      <div className="space-y-3">
+        <div className="flex items-center justify-between text-sm">
+          <span className="text-slate-400">Subtotal</span>
+          <span className="text-slate-200 font-medium">₹{amount}</span>
+        </div>
+        
+        <div className="flex items-center justify-between text-sm">
+          <span className="text-slate-400">Shipping</span>
+          <span className="text-slate-200 font-medium">
+            {shipping > 0 ? `₹${shipping}` : 'Free'}
           </span>
-        </a>
+        </div>
+        
+        <div className="flex items-center justify-between text-sm">
+          <span className="text-slate-400">Discount (10%)</span>
+          <span className="text-green-400 font-medium">-₹{discount}</span>
+        </div>
       </div>
+
+      {/* Divider */}
+      <div className="h-px bg-slate-700" />
+
+      {/* Total */}
+      <div className="flex items-center justify-between">
+        <span className="text-slate-200 font-semibold">Total</span>
+        <div className="text-right">
+          <span className="text-2xl font-bold bg-gradient-to-r from-primary-light to-secondary-light 
+            bg-clip-text text-transparent">
+            ₹{total}
+          </span>
+          <p className="text-xs text-slate-500 mt-1">Inclusive of all taxes</p>
+        </div>
+      </div>
+
+      {/* Savings Banner */}
+      {discount > 0 && (
+        <div className="flex items-center gap-2 px-3 py-2 rounded-lg
+          bg-green-500/10 border border-green-500/20">
+          <svg className="w-4 h-4 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
+              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <span className="text-sm text-green-400">
+            You're saving ₹{discount} on this order!
+          </span>
+        </div>
+      )}
     </div>
   );
 }
