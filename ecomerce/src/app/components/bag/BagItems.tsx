@@ -49,9 +49,11 @@ function BagItems() {
         >
           {/* Product Image */}
           <div className="relative w-20 h-20 rounded-lg overflow-hidden bg-dark-600 flex-shrink-0">
-            <img
+            <Image
               src={item.imageUrl}
               alt={item.name}
+              width={80}
+              height={80}
               className="w-full h-full object-cover"
             />
           </div>

@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 import { nanoid } from "nanoid";
 import AddToBagButton from "./AddToBag";
 import { useDispatch } from "react-redux";
@@ -33,9 +34,11 @@ export default function SearchList(data: any) {
         >
           {/* Product Image */}
           <div className="w-12 h-12 rounded-lg overflow-hidden bg-dark-600 flex-shrink-0">
-            <img
+            <Image
               src={item.imageUrl}
               alt={item.name}
+              width={48}
+              height={48}
               className="w-full h-full object-cover"
             />
           </div>

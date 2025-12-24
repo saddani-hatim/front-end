@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import Image from "next/image";
 import { AiOutlineUser, AiOutlineMail, AiOutlinePhone, AiOutlineEnvironment } from "react-icons/ai";
 import { BsBag, BsHeart, BsGear, BsBoxSeam } from "react-icons/bs";
 import Link from "next/link";
@@ -36,9 +37,11 @@ export default function ProfilePage() {
           <div className="flex flex-col md:flex-row items-center gap-6">
             {/* Avatar */}
             <div className="relative">
-              <img
+              <Image
                 src={user.avatar}
                 alt={user.name}
+                width={128}
+                height={128}
                 className="w-24 h-24 md:w-32 md:h-32 rounded-2xl object-cover
                   ring-4 ring-primary/30 shadow-glow"
               />

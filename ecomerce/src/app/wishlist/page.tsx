@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import Image from "next/image";
 import { useAppSelector } from "@/redux/store";
 import { useDispatch } from "react-redux";
 import { removeFromWishlist, addToBag, addPrice } from "@/redux/features/manageBag";
@@ -103,9 +104,10 @@ function WishlistContent() {
 
                 {/* Image */}
                 <div className="relative aspect-square overflow-hidden bg-dark-700">
-                  <img
+                  <Image
                     src={item.imageUrl}
                     alt={item.name}
+                    fill
                     className="w-full h-full object-cover transition-transform duration-500 
                       group-hover:scale-110"
                   />
